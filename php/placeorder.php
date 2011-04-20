@@ -1,9 +1,9 @@
 <?php
 require('inc/functions.php');
 
-if (isset($_GET['deviceid'])) {
+if (isset($_POST['deviceid'])) {
 	// core passed params we care about
-	$deviceid	= $_GET['device_id'];
+	$deviceid	= $_POST['device_id'];
 	$run_id 	= $_POST['run_id'];
 	$drink		= $_POST['order'];
 
@@ -20,6 +20,7 @@ if (isset($_GET['deviceid'])) {
 
 // see if they have an empty order
 $sql = "SELECT id FROM orders WHERE user_id={$user->id} AND run_id={$run_id} AND drink=''";
+debug($sql);
 $result = dbQuery($sql);
 if (mysql_num_rows($result)) {
 	$order = mysql_fetch_object($result);

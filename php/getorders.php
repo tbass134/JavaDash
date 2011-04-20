@@ -56,8 +56,7 @@ if ($is_runner) { // they are the runner, let's show them the run/location and t
 
 	if($rows != null)
 		$data["run"]['orders'] = $rows;
-	else
-		$data["run"]['orders'] = 0;
+	
 /*	*/
 
 } else { // they are an attendee, let's show them where the runner is going
@@ -96,9 +95,7 @@ if ($is_runner) { // they are the runner, let's show them the run/location and t
 
 	if($rows != null)
 		$data["run"]['orders'] = $rows;
-	else
-		$data["run"]['orders'] = 0;
-
+	
 }
 
 echo json_encode($data);
