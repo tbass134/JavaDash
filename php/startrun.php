@@ -43,7 +43,7 @@ if (isset($_POST['deviceid'])) {
 	echo json_encode($result);
 	exit;
 }
-
+/*
 // Your testing data
 $APP_MASTER_SECRET = 'D9RVBb5fRYaib0hJGz9L-g';
 $APP_KEY = 'V1IdApIgQ_WuhReygjVqBg';
@@ -56,7 +56,7 @@ if(!$isLocal) {
 	$message = array('aps'=>array('alert'=>'hello'),'order'=>array('push_type'=>$push_type,'runner'=>$runner_first_name." ".$runner_last_name));
 	$airship->push($message, $device_tokens_array, array('testTag'));
 }
-
+*/
 // set up a run
 
 // 2 set up the run

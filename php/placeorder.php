@@ -1,26 +1,21 @@
 <?php
 require('inc/functions.php');
 
-if (isset($_POST['deviceid'])) {
+if (isset($_POST['device_id'])) {
 	// core passed params we care about
 	$deviceid	= $_POST['device_id'];
 	$run_id 	= $_POST['run_id'];
 	$drink		= $_POST['order'];
-
-	// don't care about this
-	$first_name = $_POST['first_name'];
-	$last_name  = $_POST['last_name'];
-
 	// set up the user
 	$user = findUserByDeviceID($deviceid);
 } else {
 	// no device id
+	echo "no device id";
 	exit;
 }
 
 // see if they have an empty order
 $sql = "SELECT id FROM orders WHERE user_id={$user->id} AND run_id={$run_id} AND drink=''";
-debug($sql);
 $result = dbQuery($sql);
 if (mysql_num_rows($result)) {
 	$order = mysql_fetch_object($result);

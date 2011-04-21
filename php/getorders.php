@@ -4,6 +4,7 @@ require('inc/functions.php');
 if (isset($_GET['deviceid'])) {
 	// core passed params we care about
 	$deviceid = $_GET['deviceid'];
+	$name = $_GET['name'];
 } else {
 	// no device id
 	exit;
@@ -14,7 +15,7 @@ if (isset($_GET['deviceid'])) {
 // all attendees are users
 
 // first get their user_id
-$user = findUserByDeviceID($deviceid);
+$user = findUserByDeviceID($deviceid,$name);
 $is_runner = 0;
 
 // now check if that user has any open runs
@@ -47,16 +48,19 @@ if ($is_runner) { // they are the runner, let's show them the run/location and t
 	
 /*	*/
 	// get the orders for the run
-	$sql = "SELECT * FROM orders WHERE run_id={$run_id} AND drink != '';";
+	//$sql = "SELECT * FROM orders WHERE run_id={$run_id} AND drink != '';";
+	$sql ="SELECT * FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='" .$row['id'] . "' AND drink != '';";
 	$result = dbQuery($sql);
 	while ($row = mysql_fetch_assoc($result)) {
+	
 		$row['drink'] = json_decode($row['drink']);
 		$rows[] = $row;
 	}
 
 	if($rows != null)
 		$data["run"]['orders'] = $rows;
-	
+	else
+		$data["run"]['orders'] = 0;
 /*	*/
 
 } else { // they are an attendee, let's show them where the runner is going
@@ -73,7 +77,6 @@ if ($is_runner) { // they are the runner, let's show them the run/location and t
 		return;
 	
 	$row = mysql_fetch_assoc($result);
-	//$data["run"] = $row;
 
 	$data["run"]['id'] = $row['id'];
 	$data["run"]['location_id'] = $row['location_id'];
@@ -86,16 +89,17 @@ if ($is_runner) { // they are the runner, let's show them the run/location and t
 	$data["run"]["location"]['address'] = $row['address'];
 	$data["run"]["location"]['yelp_id'] = $row['yelp_id'];
 
-	$sql = "SELECT * FROM orders WHERE run_id='" . $row['id'] ."' AND drink != '';";
+	$sql ="SELECT * FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='" .$row['id'] . "' AND drink != '';";
 	$result = dbQuery($sql);
 	while ($row = mysql_fetch_assoc($result)) {
 		$row['drink'] = json_decode($row['drink']);
+		
 		$rows[] = $row;
 	}
-
 	if($rows != null)
 		$data["run"]['orders'] = $rows;
-	
+		
+
 }
 
 echo json_encode($data);

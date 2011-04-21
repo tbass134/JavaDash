@@ -145,18 +145,18 @@ function dbUpdate ($sql) {
  * @param string $deviceid
  * @return stdClass user object
  */
-function findUserByDeviceID($deviceid) {
+function findUserByDeviceID($deviceid,$name = null) {
 	$sql = "SELECT * FROM users WHERE deviceid='{$deviceid}'";
 	$result = dbQuery($sql);
 	if (mysql_num_rows($result)) {
 		return mysql_fetch_object($result);
 	} else {
-		$sql = "INSERT INTO users (deviceid) VALUES ('{$deviceid}')";
+		$sql = "INSERT INTO users (deviceid,name) VALUES ('{$deviceid}','{$name}')";
 		dbQuery($sql);
 		$user = new stdClass();
 		$user->id = mysql_insert_id();
 		$user->deviceid = $deviceid;
-		$user->name = "";
+		$user->name = $name;
 		return $user;
 	}
 }
