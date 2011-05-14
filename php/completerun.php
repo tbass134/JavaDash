@@ -7,10 +7,12 @@ if (isset($_GET['deviceid'])) {
 	$run_id = $_GET['run_id'];
 
 	$user = findUserByDeviceID($deviceid);
+	print_r($user);
 } else {
-	// no device id
+	 echo "no device id";
 	exit;
 }
 
-$sql = "UPDATE run SET completed=1 WHERE user_id={$user->id} AND run_id={$run_id}";
+$sql = "UPDATE runs SET completed=1 WHERE user_id={$user->id} AND id={$run_id}";
+debug($sql);
 dbUpdate($sql);

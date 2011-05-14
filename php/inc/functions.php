@@ -82,7 +82,7 @@ function dbConnect() {
 		$dbHostname = "localhost";
 		$dbUsername = "root";
 		$dbPassword = "root";
-		$dbName = "javadash";
+		$dbName = "";
 	}
 	$dbcnx = mysql_connect($dbHostname, $dbUsername, $dbPassword);
 	if (!$dbcnx) {
@@ -145,13 +145,13 @@ function dbUpdate ($sql) {
  * @param string $deviceid
  * @return stdClass user object
  */
-function findUserByDeviceID($deviceid,$name = null) {
+function findUserByDeviceID($deviceid,$name = null,$platform = null) {
 	$sql = "SELECT * FROM users WHERE deviceid='{$deviceid}'";
 	$result = dbQuery($sql);
 	if (mysql_num_rows($result)) {
 		return mysql_fetch_object($result);
 	} else {
-		$sql = "INSERT INTO users (deviceid,name) VALUES ('{$deviceid}','{$name}')";
+		$sql = "INSERT INTO users (deviceid,name,platform) VALUES ('{$deviceid}','{$name}','{$platform}')";
 		dbQuery($sql);
 		$user = new stdClass();
 		$user->id = mysql_insert_id();

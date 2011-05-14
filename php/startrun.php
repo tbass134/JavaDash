@@ -43,20 +43,29 @@ if (isset($_POST['deviceid'])) {
 	echo json_encode($result);
 	exit;
 }
-/*
+
+echo $device_tokens_array;
 // Your testing data
 $APP_MASTER_SECRET = 'D9RVBb5fRYaib0hJGz9L-g';
 $APP_KEY = 'V1IdApIgQ_WuhReygjVqBg';
-$TEST_DEVICE_TOKEN = '8b5149b911a2bc2c3bf55e2796da3e1e71ff4d89237ea3f9c0940f9ee6b0762f';
-//$TEST_DEVICE_TOKEN = 'B76CC8AE0270C31E99112E8EC823711A41BEC4E508A9D74B76EDCC290A5B7F45';
+$TEST_DEVICE_TOKEN = '9b0e1a82e31b0c7e029c8fb46d2fa40673cfb73ccb76c112dfd0500ad449f639';
+$airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 
-if(!$isLocal) {
-	$airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
-	//$airship->register($device_tokens_array[0], 'testTag');
-	$message = array('aps'=>array('alert'=>'hello'),'order'=>array('push_type'=>$push_type,'runner'=>$runner_first_name." ".$runner_last_name));
-	$airship->push($message, $device_tokens_array, array('testTag'));
+/*
+// Test register
+for($i = 0;$i<count($device_tokens_array);$i++)
+{	
+	$airship->register($device_tokens_array[$i], 'testTag');
 }
 */
+// Test get device token info
+//print_r($airship->get_device_token_info($TEST_DEVICE_TOKEN));
+
+$runner_name = $runner_first_name." ".$runner_last_name;
+$message = array('aps'=>array('alert'=>$runner_name .  'wants to know if you want some coffee!'),'order'=>array('push_type'=>$push_type,'runner'=>$runner_name));
+$airship->push($message, $device_tokens_array, array('testTag'));
+
+
 // set up a run
 
 // 2 set up the run
