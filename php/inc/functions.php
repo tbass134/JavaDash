@@ -73,17 +73,12 @@ function debug($str, $location='screen', $exit=0) {
  * Initiate database connection
  */
 function dbConnect() {
-	if ($_SERVER['SERVER_NAME'] == 'www.javadash.com') {
-		$dbHostname = "";
-		$dbUsername = "";
-		$dbPassword = "";
-		$dbName = "";
-	} else {
-		$dbHostname = "localhost";
-		$dbUsername = "root";
-		$dbPassword = "root";
-		$dbName = "";
-	}
+
+	$dbHostname = "localhost";
+	$dbUsername = "***";
+	$dbPassword = "***";
+	$dbName = "javadash";
+	
 	$dbcnx = mysql_connect($dbHostname, $dbUsername, $dbPassword);
 	if (!$dbcnx) {
 		echo( "<p>Unable to connect to the database server $dbHostname at this time.</p>" );
@@ -145,22 +140,76 @@ function dbUpdate ($sql) {
  * @param string $deviceid
  * @return stdClass user object
  */
-function findUserByDeviceID($deviceid,$name = null,$platform = null) {
+function findUserByDeviceID($deviceid,$name = null,$email = null,$enable_email_use = null, $platform = null) {
 	$sql = "SELECT * FROM users WHERE deviceid='{$deviceid}'";
 	$result = dbQuery($sql);
 	if (mysql_num_rows($result)) {
 		return mysql_fetch_object($result);
 	} else {
-		$sql = "INSERT INTO users (deviceid,name,platform) VALUES ('{$deviceid}','{$name}','{$platform}')";
+		$sql = "INSERT INTO users (deviceid,name,email,enable_email_use,platform) VALUES ('{$deviceid}','{$name}','{$email}','{$enable_email_use}','{$platform}')";
 		dbQuery($sql);
 		$user = new stdClass();
 		$user->id = mysql_insert_id();
 		$user->deviceid = $deviceid;
 		$user->name = $name;
+		$user->email = $email;
+		$user->enable_email = $enable_email_use;
+		$user->platform = $platform;
 		return $user;
 	}
 }
 
+
+/**
+ * Find user by Email Address
+ * @param string $deviceid
+ * @return stdClass user object
+ */
+function findUserByEmail($email) {
+	$sql = "SELECT * FROM users WHERE email='{$email}'";
+	$result = dbQuery($sql);
+	if (mysql_num_rows($result)) {
+		return mysql_fetch_object($result);
+	} 
+}
+
+
+function updateUserInfo($deviceid,$name = null,$email = null,$enable_email_use = null, $platform = null)
+{
+	$user = findUserByDeviceID($deviceid);
+	$sql = "UPDATE users SET name=\"{$name}\" email=\"{$email}\" enable_email_use=\"{$enable_email_use}\"  WHERE id={$user->id}";
+	dbUpdate($sql);
+	return 1;
+}
+function sendEmail($to, $subject,$body = null)
+{
+	if (filter_var($to, FILTER_VALIDATE_EMAIL))
+	{
+	
+		//echo "Send email received " . $body . "\n";
+		//if($body != null)
+		$drink = json_decode($body);
+		
+		print_r("drink info is" . $drink);	
+	
+		$vars = '?email='.urlencode($to).'&subject='.urlencode($subject).'&order='.$body;
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://darkbearinteractive.com/mail/template.php' . $vars);
+		
+		//echo "URL = " . 'http://darkbearinteractive.com/mail/template.php' . $vars . "\n";
+		
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		$content = trim(curl_exec($ch));
+		curl_close($ch);
+		print $content;
+			
+	}  
+	else {
+		echo("<p>Email Invaild...</p>");
+	}
+}
 
 
 function unixToMySQL($timestamp)

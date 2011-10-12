@@ -1,0 +1,4 @@
+[22-Jul-2011 12:01:43] PHP Parse error:  syntax error, unexpected '=' in /home4/stumpint/public_html/darkbearinteractive.com/mail/template.php on line 237
+[22-Jul-2011 12:02:04] PHP Fatal error:  Cannot redeclare mailnewsletter() (previously declared in /home4/stumpint/public_html/darkbearinteractive.com/mail/template.php:223) in /home4/stumpint/public_html/darkbearinteractive.com/mail/template.php on line 257
+[22-Jul-2011 12:34:24] PHP Parse error:  syntax error, unexpected T_STRING in /home4/stumpint/public_html/darkbearinteractive.com/mail/template.php on line 6
+[22-Jul-2011 12:43:55] PHP Parse error:  syntax error, unexpected T_ECHO in /home4/stumpint/public_html/darkbearinteractive.com/mail/template.php on line 158

@@ -5,6 +5,9 @@
 //
 $coords = $_GET['coords'];
 $term = $_GET['term'];
+$limit = $_GET['limit'];
+$offset = $_GET['offset'];
+$sort = $_GET['sort'];
 
 
 
@@ -21,6 +24,17 @@ if(strlen($coords) ==5)
 else
 	$unsigned_url = "http://api.yelp.com/v2/search?term=".$term ."&ll=" . $coords;
 
+
+if($limit != NULL)
+	$unsigned_url .= "&limit=".$limit;
+	
+if($offset != NULL)
+	$unsigned_url .= "&offset=".$offset;
+	
+if($sort != NULL)
+	$unsigned_url .= "&sort=".$sort;	
+else
+	$unsigned_url .= "&sort=1";
 //$unsigned_url = "http://api.yelp.com/v2/search?term=tacos&location=sf"
 //For Lat,Lng 
 //$unsigned_url = "http://api.yelp.com/v2/search?term=coffee&ll=" . $coords;
