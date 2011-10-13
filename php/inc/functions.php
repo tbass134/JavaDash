@@ -69,6 +69,7 @@ function debug($str, $location='screen', $exit=0) {
 	if ($exit) exit;
 }
 
+//Test Commit
 /**
  * Initiate database connection
  */
