@@ -1,4 +1,5 @@
 <?php
+include('login.php');
 /**
  * @author Jason Lawton
  */
@@ -75,11 +76,7 @@ function debug($str, $location='screen', $exit=0) {
  */
 function dbConnect() {
 
-	$dbHostname = "localhost";
-	$dbUsername = "***";
-	$dbPassword = "***";
-	$dbName = "javadash";
-	
+		
 	$dbcnx = mysql_connect($dbHostname, $dbUsername, $dbPassword);
 	if (!$dbcnx) {
 		echo( "<p>Unable to connect to the database server $dbHostname at this time.</p>" );
