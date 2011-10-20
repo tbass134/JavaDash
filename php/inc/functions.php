@@ -1,5 +1,4 @@
 <?php
-include('login.php');
 /**
  * @author Jason Lawton
  */
@@ -76,7 +75,8 @@ function debug($str, $location='screen', $exit=0) {
  */
 function dbConnect() {
 
-		
+
+	require("login.php");
 	$dbcnx = mysql_connect($dbHostname, $dbUsername, $dbPassword);
 	if (!$dbcnx) {
 		echo( "<p>Unable to connect to the database server $dbHostname at this time.</p>" );
@@ -138,13 +138,13 @@ function dbUpdate ($sql) {
  * @param string $deviceid
  * @return stdClass user object
  */
-function findUserByDeviceID($deviceid,$name = null,$email = null,$enable_email_use = null, $platform = null) {
+function findUserByDeviceID($deviceid,$name = null,$email = null,$enable_email_use = null, $platform = null, $fbID = null) {
 	$sql = "SELECT * FROM users WHERE deviceid='{$deviceid}'";
 	$result = dbQuery($sql);
 	if (mysql_num_rows($result)) {
 		return mysql_fetch_object($result);
 	} else {
-		$sql = "INSERT INTO users (deviceid,name,email,enable_email_use,platform) VALUES ('{$deviceid}','{$name}','{$email}','{$enable_email_use}','{$platform}')";
+		$sql = "INSERT INTO users (deviceid,name,email,enable_email_use,platform,fb_id) VALUES ('{$deviceid}','{$name}','{$email}','{$enable_email_use}','{$platform}','{$fbID}')";
 		dbQuery($sql);
 		$user = new stdClass();
 		$user->id = mysql_insert_id();
@@ -153,6 +153,7 @@ function findUserByDeviceID($deviceid,$name = null,$email = null,$enable_email_u
 		$user->email = $email;
 		$user->enable_email = $enable_email_use;
 		$user->platform = $platform;
+		$user->fb_id = $fbID;
 		return $user;
 	}
 }
