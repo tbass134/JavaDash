@@ -1,6 +1,6 @@
 <?php
 //echo generateTemplate("test","Subnav Text here","test");
-function generateTemplate($subject,$subnav_text,$order)
+function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 {
 	$basedomain = "http://www.javadash.com/app/php/Postmark/template/";
 	$message =  '
@@ -183,7 +183,7 @@ function generateTemplate($subject,$subnav_text,$order)
 							
 								<img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="8"><br>  
 							
-								<p style="color:#a6a6a6;font-size:12px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:15px;padding-top:0;padding-bottom:0;line-height:18px;" class="reminder">You’re receiving this because you’re an awesome ABC Widgets customer or subscribed via <a href="http://www.abcwidgets.com/" style="color:#a6a6a6;text-decoration:underline;">our site</a>.</p>
+								<p style="color:#a6a6a6;font-size:12px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:15px;padding-top:0;padding-bottom:0;line-height:18px;" class="reminder">You’re receiving this because you’re an awesome ABC Widgets customer or subscribed via <a href="http://javadash.com/dev/JavaDash/php/Postmark/RemoveFromList/index.php?email="'.$runnerEmail.'" style="color:#a6a6a6;text-decoration:underline;">our site</a>.</p>
 								<p style="color:#c9c9c9;font-size:12px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;"><preferences style="color:#3ca7dd;text-decoration:none;"><strong>Edit your subscription</strong></preferences>&nbsp;&nbsp;|&nbsp;&nbsp;<unsubscribe style="color:#3ca7dd;text-decoration:none;"><strong>Unsubscribe instantly</strong></unsubscribe></p>
 							
 							</td>

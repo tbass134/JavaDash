@@ -58,11 +58,11 @@ catch (Exception $e) {
 		$subnav = "Some Subnav";
 		$body = $drink;
 		$userName = $user->name;
-		$userEmail = $runner->email;
-		if($subject != null && $subnav != null && $body != null && $userName != null && $userEmail != null)
+		$runnerEmail = $runner->email;
+		if($subject != null && $subnav != null && $body != null && $userName != null && $runnerEmail != null)
 		{
 			echo "Sending Email";
-			sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName);
+			sendPostmarkEmail($subject,$subnav,$body,$runnerEmail,$userName);
 		}
 	}
 	

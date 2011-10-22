@@ -1,7 +1,7 @@
 <?php
 require('inc/functions.php');
 
-$email = $_GET['email'];
+$email = $_POST['email'];
 if($email == null)
 {
 	echo "no email address";
@@ -12,9 +12,10 @@ $user = findUserByEmail($email);
 if($user != null)
 {
 	$sql = "UPDATE users SET enable_email_use=0 WHERE id={$user->id}";
-	//debug($sql);
 	dbUpdate($sql);
-	echo "ok"
+	echo "You have been unsubscribed from JavaDash!";
 }
 else
-	echo "fail";
+{
+	echo "User was not found in Database";
+}
