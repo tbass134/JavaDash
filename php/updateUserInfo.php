@@ -6,6 +6,7 @@ if ( isset($_GET['deviceid']) || $deviceid != "(null)") {
 	$name = $_GET['name'];
 	$email = $_GET['email'];
 	$enable_email_use = $_GET['enable_email'];
+	$fbid = $_GET['fbid'];
 	
 } else {
 	// no device id
@@ -13,7 +14,7 @@ if ( isset($_GET['deviceid']) || $deviceid != "(null)") {
 }
 
 $user = findUserByDeviceID($deviceid);
-$sql = "UPDATE users SET name=\"{$name}\", email=\"{$email}\", enable_email_use=\"{$enable_email_use}\"  WHERE id={$user->id}";
+$sql = "UPDATE users SET name=\"{$name}\", email=\"{$email}\", enable_email_use=\"{$enable_email_use}\", fb_id=\"($fbid}\"  WHERE id={$user->id}";
 if(dbUpdate($sql))
 	return "ok";
 else
