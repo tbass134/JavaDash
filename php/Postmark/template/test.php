@@ -2,8 +2,8 @@
 
 
 	// Well, yeah..
-	require('Postmark.php');
-	include('template/template.php');
+	require('../Postmark.php');
+	include('template.php');
 	// Create a "server" in your "rack", then copy it's API key
 	define('POSTMARKAPP_API_KEY', 'de4b0998-36f3-4428-8f1d-5949ef4653c1');
 	
@@ -16,9 +16,9 @@
 	
 	$subject ="Name has placed an order using Java Dash";
 	$subnav = "Some Subnav";
-	$body = $drink;
-	$userName = $user->name;
-	$runnerEmail = $runner->email;
+	$body = '{"Size":"Extra Large","drink":"Coffee","beverage":"Flavored Coffee (please specify)","timestamp":"1319507688","Sweetener":"Sugar","Milk":"1%","drink_type":"Hot","Add Shot of Espresso":true}';
+	$userName = "Test";
+	$runnerEmail = "Tbass134@gmail.com";
 	if($subject != null && $subnav != null && $body != null && $userName != null && $runnerEmail != null)
 	{
 		echo "Sending Email";
@@ -29,13 +29,15 @@
 	{
 		echo "Calling sendEmail";
 		$message = generateTemplate($subject,$subnav,$body,$runnerEmail);
-		
+		/*
 		// Create a message and send it
 		Mail_Postmark::compose()
 		->addTo($runnerEmail, $userName)
 		->subject($subject)
 		->messageHtml($message)
 		->send();
+		*/
+		echo $message;
 	}
 	
 ?>
