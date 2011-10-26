@@ -108,7 +108,7 @@ function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 			<table width="600" cellpadding="0" cellspacing="0" border="0" class="table">
 			<tr>
 				<td width="250" bgcolor="#e4e4e4" class="logocell"><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="20" class="hide"><br class="hide"><img src="'.$basedomain.'/images/widget-logo4.png" width="178" height="76" alt="Campaign Monitor" style="-ms-interpolation-mode:bicubic;"><br><img border="0" src="'.$basedomain.'/'.$basedomain.'/images/spacer.gif" width="1" height="10" class="hide"><br class="hide"></td>
-				<td align="right" width="350" class="hide" style="color:#a6a6a6;font-size:12px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;text-shadow: 0 1px 0 #ffffff;" valign="top" bgcolor="#e4e4e4"><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="63"><br><span>WIDGET&nbsp;</span><strong><span style="text-transform:uppercase;"> <currentmonthname> <currentyear></span></strong> <span>NEWSLETTER&nbsp;</span></td>
+				<td align="right" width="350" class="hide" style="color:#a6a6a6;font-size:12px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;text-shadow: 0 1px 0 #ffffff;" valign="top" bgcolor="#e4e4e4"><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="63"><br><span>JavaDash&nbsp;</span><strong><span style="text-transform:uppercase;"> <currentmonthname> <currentyear></span></strong> <span>NEWSLETTER&nbsp;</span></td>
 			</tr>
 			</table>
 		
@@ -197,7 +197,7 @@ function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 								</tr>
 								</table>
 							
-								<img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="10"><br><p style="color:#b3b3b3;font-size:11px;line-height:15px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:bold;">ABC Widgets</p><p style="color:#b3b3b3;font-size:11px;line-height:15px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:normal;">87 Street Avenue, California, USA</p></td>
+								<img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="10"><br><p style="color:#b3b3b3;font-size:11px;line-height:15px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:bold;"></p><p style="color:#b3b3b3;font-size:11px;line-height:15px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:normal;"></p></td>
 						</tr>
 						</table>
 					
