@@ -27,7 +27,7 @@ $user = findUserByDeviceID($deviceid);
 $is_runner = 0;
 
 // now check if that user has any open runs
-$sql = "SELECT * FROM runs WHERE user_id={$user->id} ORDER BY timestamp DESC LIMIT 0,1";
+$sql = "SELECT * FROM runs WHERE user_id={$user->id} AND completed=0 ORDER BY timestamp DESC LIMIT 0,1";
 $result = dbQuery($sql);
 $data = array();
 //debug($sql);
