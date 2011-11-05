@@ -12,14 +12,14 @@
 	define('POSTMARKAPP_MAIL_FROM_ADDRESS', 'info@javadash.com');
 	define('POSTMARKAPP_MAIL_FROM_NAME', 'JavaDash');
 		
-	function sendPostmarkEmail($subject,$subnav,$body,$runnerEmail,$userName)
+	function sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName)
 	{
 		echo "Calling sendEmail";
-		$message = generateTemplate($subject,$subnav,$body,$runnerEmail);
+		$message = generateTemplate($subject,$subnav,$body);
 		
 		// Create a message and send it
 		Mail_Postmark::compose()
-		->addTo($runnerEmail, $userName)
+		->addTo($userEmail, $userName)
 		->subject($subject)
 		->messageHtml($message)
 		->send();

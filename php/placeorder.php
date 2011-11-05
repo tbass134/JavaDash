@@ -29,11 +29,12 @@ $sql = "SELECT runs.id AS runs_id, users.* FROM runs LEFT JOIN users ON runs.use
 debug($sql);
 $result = dbQuery($sql);
 debug($result);
+
+include 'inc/login.php';
+$airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 while ($row = mysql_fetch_assoc($result)) {
 
-	$APP_MASTER_SECRET = 'D9RVBb5fRYaib0hJGz9L-g';
-	$APP_KEY = 'V1IdApIgQ_WuhReygjVqBg';
-	$airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
+	
 
 try
 {
@@ -58,11 +59,11 @@ catch (Exception $e) {
 		$subnav = "Some Subnav";
 		$body = $drink;
 		$userName = $user->name;
-		$runnerEmail = $runner->email;
-		if($subject != null && $subnav != null && $body != null && $userName != null && $runnerEmail != null)
+		$userEmail = $runner->email;
+		if($subject != null && $subnav != null && $body != null && $userName != null && $userEmail != null)
 		{
 			echo "Sending Email";
-			sendPostmarkEmail($subject,$subnav,$body,$runnerEmail,$userName);
+			sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName);
 		}
 	}
 	

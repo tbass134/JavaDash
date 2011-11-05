@@ -10,7 +10,7 @@ $selected_name 		= $_POST['selected_name'];
 $selected_address 	= $_POST['selected_address'];
 $selected_url 		= $_POST['selected_url'];
 $selected_yelp_id	= $_POST['selected_yelp_id'];
-$isLocal			= $_POST['isLocal'];
+//$isLocal			= $_POST['isLocal'];
 
 $device_tokens_array = explode(",",$device_token);
 
@@ -49,9 +49,7 @@ if (isset($_POST['deviceid'])) {
 
 echo $device_tokens_array;
 // Your testing data
-$APP_MASTER_SECRET = 'D9RVBb5fRYaib0hJGz9L-g';
-$APP_KEY = 'V1IdApIgQ_WuhReygjVqBg';
-$TEST_DEVICE_TOKEN = '9b0e1a82e31b0c7e029c8fb46d2fa40673cfb73ccb76c112dfd0500ad449f639';
+include 'inc/login.php';
 $airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 
 
@@ -60,9 +58,10 @@ $message = array('aps'=>array('alert'=>$runner_name .  ' wants to know if you wa
 
 try
 {
-	$airship->push($message, $device_tokens_array, array('testTag'));
+	$airship->push($message, $device_tokens_array);
 }catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
+    error_log('Caught exception: ',  $e->getMessage(), "\n");
+    
 }
 
 // set up a run
