@@ -7,7 +7,7 @@ if (isset($_GET['deviceid'])) {
 	$run_id = $_GET['run_id'];
 
 	$user = findUserByDeviceID($deviceid);
-	//print_r($user);
+	debug($user);
 } else {
 	 echo "no device id";
 	exit;

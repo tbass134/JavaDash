@@ -34,18 +34,16 @@ include 'inc/login.php';
 $airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 while ($row = mysql_fetch_assoc($result)) {
 
-	
-
 try
 {
 	if($updateOrder !="1")
 	{
 		$message = array('aps'=>array('alert'=>$user->name . " has placed an order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
-		$airship->push($message, $row['deviceid'], array('testTag'));	
+		$airship->push($message, $row['deviceid']); //, array('testTag')	
 	}
 }
 catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
+    error_log('Caught exception: ',  $e->getMessage(), "\n");
 }
 	//Send the runner the email
 	$runner = findUserByDeviceID($row['deviceid']);
