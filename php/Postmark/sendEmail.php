@@ -15,7 +15,7 @@
 	function sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName)
 	{
 		echo "Calling sendEmail";
-		$message = generateTemplate($subject,$subnav,$body);
+		$message = generateTemplate($subject,$subnav,$body,$runnerEmail);
 		
 		// Create a message and send it
 		Mail_Postmark::compose()

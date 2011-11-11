@@ -9,7 +9,10 @@ if (isset($_POST['device_id'])) {
 	$drink		= $_POST['order'];
 	
 if (isset($_POST['updateOrder']))
+{
 	$updateOrder= $_POST['updateOrder'];
+	$order_id = $_POST['order_id'];
+}
 else
 	$updateOrder = "0";
 	
@@ -22,6 +25,7 @@ else
 	exit;
 }
 
+debug($updateOrder);
 
 //Send a push to the runner saying there is an order
 //Get the runner device id
@@ -50,18 +54,20 @@ catch (Exception $e) {
 	debug($runner);
 	//If Email is enabled, email the order to the user
 	
-	if($runner->enable_email_use)
+	if($runner->enable_email_use && isset($drink))
 	{
-		echo "send email";
 		$subject = $user->name . " has placed an order using Java Dash";
-		$subnav = "Some Subnav";
+		$subnav = "";
 		$body = $drink;
 		$userName = $user->name;
 		$userEmail = $runner->email;
 		if($subject != null && $subnav != null && $body != null && $userName != null && $userEmail != null)
 		{
-			echo "Sending Email";
-			sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName);
+			if($updateOrder !="1")
+			{
+				echo "Sending Email";
+				sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName);
+			}
 		}
 	}
 	
@@ -79,19 +85,24 @@ if($updateOrder =="1")
 	// see if they have an empty order
 	
 	//echo "Drink = " . $drink . "\n";
+	/*
 	$sql = "SELECT id FROM orders WHERE user_id={$user->id} AND run_id={$run_id} AND drink 	!=''";
 	debug($sql);
 	$result = dbQuery($sql);
 	if (mysql_num_rows($result)) {
 		$order = mysql_fetch_object($result);
-		$sql = "UPDATE orders SET drink=\"{$drink}\" WHERE id={$order->id}";
+		*/
+		debug("update Order");
+		$sql = "UPDATE orders SET drink=\"{$drink}\" WHERE id={$order_id}";
 		debug($sql);
 		dbUpdate($sql);
+		/*
 	} else {
 		$sql = "INSERT INTO orders (user_id, drink, run_id) VALUES ({$user->deviceid}, \"{$drink}\", {$run_id})";
 		debug($sql);
 		dbQuery($sql);
 	}
+	*/
 }
 else
 {
@@ -101,6 +112,7 @@ else
 	$result = dbQuery($sql);
 	if (mysql_num_rows($result)) {
 		$order = mysql_fetch_object($result);
+		//$sql = "UPDATE orders SET drink=\"{$drink}\" WHERE id={$run_id}";
 		$sql = "UPDATE orders SET drink=\"{$drink}\" WHERE id={$order->id}";
 		//debug($sql);
 		dbUpdate($sql);

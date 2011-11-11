@@ -64,10 +64,16 @@ if ($is_runner) {
 		
 		// get the orders for the run
 		//$sql = "SELECT * FROM orders WHERE run_id={$run_id} AND drink != '';";
-		$sql ="SELECT * FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='" .$row['runs_id'] . "' AND drink != '';";
+		//$sql ="SELECT * FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='" .$row['runs_id'] . "' AND drink != '';";
+		
+		$sql = "SELECT orders.id AS order_id,user_id,drink,run_id, deviceid,name,email,enable_email_use,platform FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='".$row['runs_id']."' AND drink != ''";
+		
+		
+		//debug($sql);
 		$result = dbQuery($sql);
 		while ($row = mysql_fetch_assoc($result)) {
 		
+		//print_r($row);
 			//Since you can add mutiple orders, need to split the string
 			// by "json=", then decode that string and make it seperate arrays
 			
@@ -99,7 +105,10 @@ if ($is_runner) {
 					}
 	
 		if($rows != null)
+		{
+			print_r($row);
 			$data["run"]['orders'] = $rows;
+		}
 		
 	}
 
@@ -138,7 +147,8 @@ if ($is_runner) {
 		
 		$data["run"]["location"]['yelp_id'] = $row['yelp_id'];
 	
-		$sql ="SELECT * FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='" .$row['runs_id'] . "' AND drink != '';";
+		//$sql ="SELECT * FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='" .$row['runs_id'] . "' AND drink != '';";
+		$sql = "SELECT orders.id AS order_id,user_id,drink,run_id, deviceid,name,email,enable_email_use,platform FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='".$row['runs_id']."' AND drink != ''";
 		$result = dbQuery($sql);
 		while ($row = mysql_fetch_assoc($result)) {
 		
