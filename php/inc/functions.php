@@ -157,7 +157,6 @@ function findUserByDeviceID($deviceid,$name = null,$email = null,$enable_email_u
 		return $user;
 	}
 }
-
 function findUserByID($user_id) {
 	$sql = "SELECT * FROM users WHERE id='{$user_id}'";
 	$result = dbQuery($sql);

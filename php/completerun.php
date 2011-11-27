@@ -33,6 +33,7 @@ while ($row = mysql_fetch_assoc($result)) {
 
 	$user = findUserByDeviceID($row['user_id']);
 	
+	
 	$message = array('aps'=>array('alert'=>$runner->name . " has canceled the order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
 	$airship->push($message, $user->deviceid); //, array('testTag')	
 }

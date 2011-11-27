@@ -91,6 +91,8 @@ $run_id = mysql_insert_id();
 foreach($attendees as $attendee_device_id) {
 	// see if the attendee is a user
 	$attendee = findUserByDeviceID($attendee_device_id);
+	debug($attendee);
+	
 	$sql = "INSERT INTO orders (user_id, run_id) VALUES ('{$attendee->id}', {$run_id})";
 	dbQuery($sql);
 	
