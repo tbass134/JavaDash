@@ -1,15 +1,21 @@
 <?php
-	//this wil go through all the users of JavaDash and check if the fb_id value is filled.
-	//If so, the user has signed on with Facebook
-	
 	require('../inc/functions.php');
-	$sql = "SELECT * FROM `users` WHERE fb_id >0";
-	$result = dbQuery($sql);
-	while ($row = mysql_fetch_assoc($result)) {
-	
-		$rows[] = $row;
+	if (isset($_POST['device_tokens']))
+	{
+		$device_token 		= $_POST['device_tokens'];
+		$device_tokens_array = explode(",",$device_token);
+		
+		$result = array_unique($device_tokens_array);
+		foreach($result as $attendee_device_id) {
+		// see if the attendee is a user
+			$attendee = findUserByDeviceID($attendee_device_id);
+			
+			if($attendee->fb_id >0)
+			{
+				$rows[] = $attendee;
+			}
+		}
+		echo json_encode($rows);
 	}
-	
-	echo json_encode($rows);
 
 ?>
