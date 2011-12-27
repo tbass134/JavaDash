@@ -1,5 +1,6 @@
 <?php
 	require('../inc/functions.php');
+	/*
 	if (isset($_POST['device_tokens']))
 	{
 		$device_token 		= $_POST['device_tokens'];
@@ -17,5 +18,18 @@
 		}
 		echo json_encode($rows);
 	}
+	*/
+	$data = array();
+	$sql = "SELECT * FROM users WHERE fb_id != 0";
+	$result = dbQuery($sql);
+	if (mysql_num_rows($result)) {
+	
+		while ($row = mysql_fetch_assoc($result)) {
+			//debug($row);
+			$rows[] = $row;
+		}
+	}
+	echo json_encode($rows);
+	
 
 ?>
