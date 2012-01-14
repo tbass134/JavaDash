@@ -27,7 +27,7 @@ if (isset($_POST['deviceid'])) {
 $user = findUserByDeviceID($deviceid,$name,$email,$enable_email_use,$platform,$fbid);
 if($user != null)
 {
-	$sql = "UPDATE users SET name=\"{$name}\", email=\"{$email}\", enable_email_use=\"{$enable_email_use}\", fb_id=\"{$fbid}\"  WHERE id={$user->id}";
+	$sql = "UPDATE users SET name=\"{$name}\", email=\"{$email}\", enable_email_use=\"{$enable_email_use}\", platform=\"{$platform}\", fb_id=\"{$fbid}\"  WHERE id={$user->id}";
 	if(dbUpdate($sql))
 	return "ok";
 	else

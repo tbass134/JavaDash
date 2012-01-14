@@ -20,7 +20,7 @@ if($deviceid == "(null)")
 	exit;
 $user = findUserByDeviceID($deviceid,$name,$email,$platform);
 
-$sql = "UPDATE users SET fb_id=$fb_id WHERE id={$user->id}";
+$sql = "UPDATE users SET fb_id={$fb_id} WHERE id={$user->id}";
 dbUpdate($sql);
 debug($sql);
 echo "ok"

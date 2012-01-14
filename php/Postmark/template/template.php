@@ -1,8 +1,9 @@
 <?php
-//echo generateTemplate("test","Subnav Text here","test");
+//echo generateTemplate("iphone 4 has placed an order using Java Dash","Subnav Text here","{Size:Small,Add Turbo Shot:false,Blend:Original,drink:Hot Chocolate,beverage:Hot Chocolate,timestamp:1326054900,Sweetener:None,Milk:None,drink_type:Hot}","tbass134@gmail.com");
+
+
 function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 {
-
 	if($_SERVER['SERVER_NAME'] == "javadash.com")
 	{
 		$basedomain = "http://javadash.com/JavaDash/php/Postmark/template/";
@@ -13,7 +14,9 @@ function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 		$basedomain = "http://dev.javadash.com/JavaDash/php/Postmark/template/";
 		$script_loc = "http://dev.javadash.com/JavaDash/php/Postmark/RemoveFromList/index.php";
 	}
-	$myOrder = decode_order($order);
+	$myOrder = $order;//decode_order($order);
+	
+	echo "myOrder = ". $myOrder; 
 		
 	$message =  '
 	<html>
@@ -227,12 +230,14 @@ function decode_order($json)
 {
 	$order_str = '';
 	$json = json_decode($json);
+	/*
 	foreach ($json as $key => $value) {
 	
 		if($key != "timestamp")
 		$order_str .= "$key: $value<br />\n";
-	}	
+	}
+	*/
 	
-	return ucwords($order_str);
+	return $json;//ucwords($json);
 }
 ?>

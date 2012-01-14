@@ -190,7 +190,6 @@ function sendEmail($to, $subject,$body = null)
 {
 	if (filter_var($to, FILTER_VALIDATE_EMAIL))
 	{
-	
 		//echo "Send email received " . $body . "\n";
 		//if($body != null)
 		$drink = json_decode($body);
