@@ -1,4 +1,6 @@
 <?php
+
+$_debug = 0;
 require('inc/functions.php');
 
 if ( isset($_GET['deviceid']) || $deviceid != "(null)") {
@@ -23,14 +25,16 @@ if($deviceid == "(null)")
 // first get their user_id
 //$user = findUserByDeviceID($deviceid,$name,$email,$enable_email_use,$platform);
 $user = findUserByDeviceID($deviceid);
-//debug($user);
+if($_debug)
+	debug($user);
 $is_runner = 0;
 
 // now check if that user has any open runs
-$sql = "SELECT * FROM runs WHERE user_id={$user->id} AND completed=0 ORDER BY timestamp DESC LIMIT 0,1";
+$sql = "SELECT * FROM runs WHERE user_id={$user->id} AND completed=0 ORDER BY date_added DESC LIMIT 0,1";
+if($_debug)
+	debug($sql);
 $result = dbQuery($sql);
 $data = array();
-//debug($sql);
 if (mysql_num_rows($result)) {
 	$is_runner = 1;
 }
@@ -40,9 +44,11 @@ if ($is_runner) {
 /*	
 	$sql = "SELECT runs.*, locations.*, users.name AS user_name FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id WHERE runs.user_id={$user->id} AND completed=0 ORDER BY runs.timestamp ASC LIMIT 0,1;";
 */	
-	$sql = "SELECT runs.id AS runs_id,runs.timestamp,runs.user_id,runs.completed,locations.id AS locations_id,locations.name AS location_name,locations.address,locations.image,locations.yelp_id,orders.drink,users.name AS user_name,users.deviceid,users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id WHERE runs.user_id={$user->id} AND completed=0 ORDER BY runs.timestamp ASC LIMIT 0,1";
+	$sql = "SELECT runs.id AS runs_id,runs.timestamp,runs.user_id,runs.completed,locations.id AS locations_id,locations.name AS location_name,locations.address,locations.image,locations.yelp_id,orders.drink,users.name AS user_name,users.deviceid,users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id WHERE runs.user_id={$user->id} AND completed=0 ORDER BY date_added ASC LIMIT 0,1";
 	
-	//debug($sql);
+	if($_debug)
+		debug($sql);
+		
 	$result = dbQuery($sql);
 	$row = mysql_fetch_assoc($result);
 	//debug($row);
@@ -69,7 +75,8 @@ if ($is_runner) {
 		$sql = "SELECT orders.id AS order_id,user_id,drink,run_id, deviceid,name,email,enable_email_use,platform FROM orders LEFT JOIN users ON orders.user_id = users.id WHERE run_id='".$row['runs_id']."' AND drink != ''";
 		
 		
-		//debug($sql);
+		if($_debug)
+			debug($sql);
 		$result = dbQuery($sql);
 		while ($row = mysql_fetch_assoc($result)) {
 		
@@ -114,14 +121,15 @@ if ($is_runner) {
 
 } else { 
 	
-	$sql = "SELECT runs.id AS runs_id, runs.timestamp, runs.user_id, runs.completed, locations.id AS locations_id, locations.name AS location_name, locations.address,locations.image, locations.yelp_id, orders.drink, users.name AS user_name, users.deviceid, users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id  WHERE orders.user_id={$user->id} AND runs.completed=0 ORDER BY runs.timestamp ASC LIMIT 0,1;";
+	$sql = "SELECT runs.id AS runs_id, runs.timestamp, runs.user_id, runs.completed, locations.id AS locations_id, locations.name AS location_name, locations.address,locations.image, locations.yelp_id, orders.drink, users.name AS user_name, users.deviceid, users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id  WHERE orders.user_id={$user->id} AND runs.completed=0 ORDER BY date_added ASC LIMIT 0,1;";
 	
 	
 /*	
 	$sql = "SELECT runs.id AS runs_id,runs.timestamp,runs.user_id,runs.completed,locations.id AS locations_id,locations.name AS location_name,locations.address,locations.yelp_id,orders.drink,users.name AS user_name,users.deviceid,users.platform FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id WHERE runs.user_id={$user->id} AND completed=0 ORDER BY runs.timestamp ASC LIMIT 0,1";
 */	
 	
-	//debug($sql);
+	if($_debug)
+		debug($sql);
 	$result = dbQuery($sql);
 	
 	if($result == null)

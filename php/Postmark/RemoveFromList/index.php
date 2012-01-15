@@ -25,6 +25,7 @@ Join our Mailing List
 <body id="public">
 <div id="container" class="ltr">
 
+<!-- Change the logo -->
 <h1 id="logo">
 <a href="http://javadash.com" title="Powered by JavaDash">JavaDash</a>
 </h1>
@@ -60,10 +61,13 @@ Your Email Address
 </div><!--container-->
 <img id="bottom" src="images/bottom.png" alt="" />
 
-<a class="powertiny" href="http://wufoo.com/tour/" title="Powered by Wufoo"
+<!--Change the logo here -->
+<!--
+<a class="powertiny" href="http://www.javadash.com" title="Powered by JavaDash"
 style="display:block !important;visibility:visible !important;text-indent:0 !important;position:relative !important;height:auto !important;width:95px !important;overflow:visible !important;text-decoration:none;cursor:pointer !important;margin:0 auto !important">
 <span style="background:url(./images/powerlogo.png) no-repeat center 7px; margin:0 auto;display:inline-block !important;visibility:visible !important;text-indent:-9000px !important;position:static !important;overflow: auto !important;width:62px !important;height:30px !important">Wufoo</span>
 <b style="display:block !important;visibility:visible !important;text-indent:0 !important;position:static !important;height:auto !important;width:auto !important;overflow: auto !important;font-weight:normal;font-size:9px;color:#777;padding:0 0 0 3px;">Designed</b>
 </a>
+-->
 </body>
 </html>
