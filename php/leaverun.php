@@ -1,6 +1,5 @@
 <?php
 
-$_debug = 1;
 require('inc/functions.php');
 require_once 'inc/urbanairship/urbanairship.php';
 if (isset($_GET['deviceid'])) {
@@ -18,8 +17,8 @@ if (isset($_GET['deviceid'])) {
 //Get the idof the user
 $user = findUserByDeviceID($deviceid);
 
-
-$sql = "SELECT orders.user_id, orders.run_id FROM `orders` LEFT JOIN `runs` ON orders.run_id = runs.id WHERE orders.user_id = {$user->id} AND orders.run_id  = '$run_id' AND runs.completed =0";
+//was SELECT orders.user_id, orders.run_id TH 011412
+$sql = "SELECT orders.id AS order_id,orders.user_id AS order_user_id,orders.run_id AS orders_run_id, runs.id AS runs_id,runs.user_id AS runs_user_id FROM `orders` LEFT JOIN `runs` ON orders.run_id = runs.id WHERE orders.user_id = {$user->id} AND orders.run_id  = '$run_id' AND runs.completed =0";
 
 if($_debug)
 	debug($sql);
@@ -29,18 +28,32 @@ if (mysql_num_rows($result) >0)
 { 
 	while ($row = mysql_fetch_assoc($result)) {
 	
-		$user_id = $row['user_id'];
-		$run_id = $row['run_id'];
-		$sql = "DELETE FROM orders WHERE `user_id` =$user_id  AND `run_id`=$run_id"; 
+		$order_user_id = $row['order_user_id'];
+		$runs_id = $row['runs_id'];
+		$runs_user_id = $row['runs_user_id'];
+		
+		$sql = "DELETE FROM orders WHERE `user_id` =$order_user_id  AND `run_id`=$runs_id";
 		debug($sql);
-		//dbUpdate($sql);
+		dbUpdate($sql);
 	}
 	
+	//now get the user from runs_user_id	
 	include 'inc/login.php';
 	$airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
-	$runner = findUserByID($row['user_id']);
+	$runner = findUserByID($runs_user_id);
+	if($_debug)
+		debug($runner);
 	
-	$message = array('aps'=>array('alert'=>$user->name . " has left the run"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
-	$airship->push($message, $runner->deviceid); //, array('testTag')	
+	try
+	{
+		$message = array('aps'=>array('alert'=>$user->name . " has left the run"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
+		$airship->push($message, $runner->deviceid);
+	}
+	catch (Exception $e) {
+	    debug('Caught exception: '.   $e->getMessage());
+	}
+	
+	
+		
 }
 

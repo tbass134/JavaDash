@@ -8,7 +8,8 @@ if (isset($_GET['deviceid'])) {
 	$run_id = $_GET['run_id'];
 
 	$user = findUserByDeviceID($deviceid);
-	debug($user);
+	if($_debug)
+		debug($user);
 } else {
 	 echo "no device id";
 	exit;
@@ -18,6 +19,7 @@ $sql = "UPDATE runs SET completed=1 WHERE user_id={$user->id} AND id={$run_id}";
 if($_debug)
 	debug($sql);
 dbUpdate($sql);
+
 
 //Send push notifications to all users saying that run has been abandoned
 //$sql = "SELECT * FROM `orders` WHERE `run_id` ={$run_id} AND `drink` != ''";
@@ -63,4 +65,7 @@ while ($row = mysql_fetch_assoc($result)) {
 	}
 }
 
+$success = 1;
+$arr = array('success' => $success);
+echo json_encode($arr);
 

@@ -15,6 +15,8 @@
 //	defined('DB_NAME')   ? null : define('DB_NAME',   'javadash');
 //}
 
+//Global Var to enable debugging
+$_debug = 0;
 // connect to the db
 dbConnect();
 
@@ -190,6 +192,7 @@ function sendEmail($to, $subject,$body = null)
 {
 	if (filter_var($to, FILTER_VALIDATE_EMAIL))
 	{
+	
 		//echo "Send email received " . $body . "\n";
 		//if($body != null)
 		$drink = json_decode($body);

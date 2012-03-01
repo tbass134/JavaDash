@@ -1,13 +1,14 @@
 <?php
-$_debug = 1;
 require('inc/functions.php');
 require('Postmark/sendEmail.php');
 require_once 'inc/urbanairship/urbanairship.php';
+
+$orderEnded = false;
 if (isset($_POST['device_id'])) {
 	// core passed params we care about
 	$deviceid	= $_POST['device_id'];
 	$run_id 	= $_POST['run_id'];
-	$drink		= $_POST['order'];
+	$drink		= urldecode($_POST['order']);
 	
 if (isset($_POST['updateOrder']))
 {
@@ -22,18 +23,36 @@ else
 	//debug($user);
 } else {
 	// no device id
-	echo "no device id";
+	$success = 0;
+	$arr = array('success' => $success);
+	echo json_encode($arr);
 	exit;
 }
 
-debug($updateOrder);
+if($_debug)
+	debug($updateOrder);
 
 //Send a push to the runner saying there is an order
 //Get the runner device id
-$sql = "SELECT runs.id AS runs_id, users.* FROM runs LEFT JOIN users ON runs.user_id = users.id WHERE runs.id=$run_id ORDER BY runs.timestamp ASC LIMIT 0,1";
+$sql = "SELECT runs.id AS runs_id, users.* FROM runs LEFT JOIN users ON runs.user_id = users.id WHERE runs.id=$run_id AND completed =0 ORDER BY runs.timestamp ASC LIMIT 0,1";
 if($_debug)
 	debug($sql);
+	
 $result = dbQuery($sql);
+if (mysql_num_rows($result)) 
+	$orderEnded = false;
+else
+	$orderEnded = true;
+	
+
+if($orderEnded)
+{
+	// no device id
+	$success = 0;
+	$arr = array('success' => $success);
+	echo json_encode($arr);
+	exit;
+}
 
 if($_debug)
 	debug($result);
@@ -51,7 +70,7 @@ try
 	}
 }
 catch (Exception $e) {
-    error_log('Caught exception: ',  $e->getMessage(), "\n");
+    error_log('Caught exception: ',  $e->getMessage());
 }
 	//Send the runner the email
 	$runner = findUserByDeviceID($row['deviceid']);
@@ -82,7 +101,8 @@ catch (Exception $e) {
 		{
 			if($updateOrder !="1")
 			{
-				echo "Sending Email";
+				if($_debug)
+					echo "Sending Email";
 				sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName);
 			}
 		}
@@ -116,6 +136,9 @@ if($updateOrder =="1")
 			debug($sql);
 		}
 		dbUpdate($sql);
+		$success = 1;
+		$arr = array('success' => $success);
+		echo json_encode($arr);
 		/*
 	} else {
 		$sql = "INSERT INTO orders (user_id, drink, run_id) VALUES ({$user->deviceid}, \"{$drink}\", {$run_id})";
@@ -138,6 +161,9 @@ else
 		if($_debug)
 			debug($sql);
 		dbUpdate($sql);
+		$success = 1;
+		$arr = array('success' => $success);
+		echo json_encode($arr);
 	} 
 	else
 	{
@@ -146,5 +172,8 @@ else
 		if($_debug)
 			debug($sql);
 		dbQuery($sql);
+		$success = 1;
+		$arr = array('success' => $success);
+		echo json_encode($arr);
 	}
 }

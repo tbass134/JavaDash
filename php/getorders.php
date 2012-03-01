@@ -17,7 +17,8 @@ if ( isset($_GET['deviceid']) || $deviceid != "(null)") {
 }
 
 if($deviceid == "(null)")
-	exit;
+	$deviceid = "0";
+	//exit;
 // check if we're a runner or an attendee
 // runners will have their user_id in an open run
 // all attendees are users
@@ -111,9 +112,9 @@ if ($is_runner) {
 			}
 					}
 	
-		if($rows != null)
+		if(isset($rows))
 		{
-			print_r($row);
+			//print_r($row);
 			$data["run"]['orders'] = $rows;
 		}
 		
@@ -197,7 +198,7 @@ if ($is_runner) {
 			
 			
 		}
-			if($rows != null)
+			if(isset($rows))
 			{
 				$data["run"]['orders'] = $rows;	
 				
