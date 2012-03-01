@@ -28,8 +28,13 @@
 			//debug($row);
 			$rows[] = $row;
 		}
+		echo json_encode($rows);
 	}
-	echo json_encode($rows);
-	
+	else
+	{
+		$success = 0;
+		$arr = array('success' => $success);
+		echo json_encode($arr);
+	}
 
 ?>
