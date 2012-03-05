@@ -21,13 +21,11 @@
 	$runnerEmail = "Tbass134@gmail.com";
 	if($subject != null && $subnav != null && $body != null && $userName != null && $runnerEmail != null)
 	{
-		echo "Sending Email";
 		sendPostmarkEmail($subject,$subnav,$body,$runnerEmail,$userName);
 	}
 		
 	function sendPostmarkEmail($subject,$subnav,$body,$runnerEmail,$userName)
 	{
-		echo "Calling sendEmail";
 		$message = generateTemplate($subject,$subnav,$body,$runnerEmail);
 		/*
 		// Create a message and send it

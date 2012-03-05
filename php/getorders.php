@@ -17,7 +17,8 @@ if ( isset($_GET['deviceid']) || $deviceid != "(null)") {
 }
 
 if($deviceid == "(null)")
-	exit;
+	$deviceid = "0";
+	//exit;
 // check if we're a runner or an attendee
 // runners will have their user_id in an open run
 // all attendees are users

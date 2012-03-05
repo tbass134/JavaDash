@@ -4,6 +4,7 @@
 
 function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 {
+	$subnav_text = "";
 	if($_SERVER['SERVER_NAME'] == "javadash.com")
 	{
 		$basedomain = "http://javadash.com/JavaDash/php/Postmark/template/";
@@ -119,16 +120,16 @@ function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 			
 			<table width="600" cellpadding="0" cellspacing="0" border="0" class="table">
 			<tr>
-				<td width="250" bgcolor="#e4e4e4" class="logocell"><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="20" class="hide"><br class="hide"><img src="'.$basedomain.'/images/widget-logo4.png" width="178" height="76" alt="Java Dash" style="-ms-interpolation-mode:bicubic;"><br><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="10" class="hide"><br class="hide"></td>
+				<td width="250" bgcolor="#e4e4e4" class="logocell"><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="20" class="hide"><br class="hide"><br><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="10" class="hide"><br class="hide"></td>
 				<td align="right" width="350" class="hide" style="color:#a6a6a6;font-size:12px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;text-shadow: 0 1px 0 #ffffff;" valign="top" bgcolor="#e4e4e4"><img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="63"><br><span>Java Dash for iPhone&nbsp;</span><strong><span style="text-transform:uppercase;"> <currentmonthname> <currentyear></span></strong> <span>&nbsp;</span></td>
 			</tr>
 			</table>
 		
-			<img border="0" src="'.$basedomain.'/images/widget-hero3.png" label="Hero image" editable="true" width="600" height="253" id="screenshot">
+			<a href="http://www.javadash.com"><img border="0" src="'.$basedomain.'/images/jd-hero.png" label="Hero image" editable="true" width="600" height="253" id="screenshot"></a>
 		
 			<table width="600" cellpadding="25" cellspacing="0" border="0" class="promotable">
 			<tr>
-				<td bgcolor="#456265" width="600" class="promocell">                      
+				<td bgcolor="#6c3803" width="600" class="promocell">                      
 				 
 					<multiline label="Main feature intro"><p>'.$subject.'</p></multiline>
 				
@@ -142,7 +143,7 @@ function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 				<layout label="New feature">
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
 				<tr>
-					<td bgcolor="#85bdad" nowrap><img border="0" src="'.$basedomain.'/images/spacer.gif" width="5" height="1"></td>
+					<td bgcolor="#6c3803" nowrap><img border="0" src="'.$basedomain.'/images/spacer.gif" width="5" height="1"></td>
 					<td width="100%" bgcolor="#ffffff">
 				
 						<table width="100%" cellpadding="20" cellspacing="0" border="0">
@@ -186,8 +187,7 @@ function generateTemplate($subject,$subnav_text,$order,$runnerEmail)
 								<img border="0" src="'.$basedomain.'/images/spacer.gif" width="1" height="8"><br>  
 							
 								<p style="color:#a6a6a6;font-size:12px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:15px;padding-top:0;padding-bottom:0;line-height:18px;" class="reminder">You\'re receiving this email because this address was added to our user list. If you would like to stop receiving these emails, please <a href="'.$script_loc.'?email='.$runnerEmail.'" style="color:#a6a6a6;text-decoration:underline;">click here</a>.</p>
-								<p style="color:#c9c9c9;font-size:12px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;"><preferences style="color:#3ca7dd;text-decoration:none;"><strong></strong></preferences><unsubscribe style="color:#3ca7dd;text-decoration:none;"><strong>Unsubscribe instantly</strong></unsubscribe></p>
-							
+															
 							</td>
 							<td align="right" width="220" style="color:#a6a6a6;font-size:12px;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;text-shadow: 0 1px 0 #ffffff;" valign="top" class="hide">
 							
