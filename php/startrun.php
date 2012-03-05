@@ -1,6 +1,5 @@
 <?php
 
-$_debug = 1;
 require('inc/functions.php');
 require('Postmark/sendEmail.php');
 require_once 'inc/urbanairship/urbanairship.php';
@@ -18,15 +17,15 @@ $date_added			= $_POST['date_added'];
 
 $device_tokens_array = explode(",",$device_token);
 
+$success = 0;
+
+
 
 //echo 'selected_date = ' .$selected_date;
 //Runner info
 $runner_first_name = $_POST['first_name'];
 $runner_last_name = $_POST['last_name'];
 $runner_device_id = $_POST['deviceid'];
-//echo 'runner_device_id = ' .$runner_device_id;
-if($_debug)
-	debug($runner_device_id);
 
 if (isset($_POST['deviceid'])) {
 	// core passed params we care about
@@ -42,8 +41,11 @@ if (isset($_POST['deviceid'])) {
 
 	// find the user
 	$user = findUserByDeviceID($deviceid);
+	if($_debug)
+		debug($user);
 } else {
 	// no device id
+	$success = 0;
 	$result = array(
 		"response" => 'No device id',
 	);
@@ -51,9 +53,20 @@ if (isset($_POST['deviceid'])) {
 	exit;
 }
 
+// now check if that user has any open runs TH added 012112
+$sql = "SELECT * FROM runs WHERE user_id={$user->id} AND completed=0 ORDER BY date_added DESC";
 if($_debug)
-	echo $device_tokens_array;
-// Your testing data
+	debug($sql);
+$result = dbQuery($sql);
+while ($row = mysql_fetch_assoc($result)) {
+	$sql = "UPDATE runs SET completed=1 WHERE id=".$row['id'];
+	if($_debug)
+		debug($sql);
+	dbUpdate($sql);	
+}
+if($_debug)
+	debug("device_tokens_array count = ".count($device_tokens_array));
+
 include 'inc/login.php';
 $airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 
@@ -61,20 +74,24 @@ $airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 $runner_name = $runner_first_name." ".$runner_last_name;
 $message = array('aps'=>array('alert'=>$runner_name .  ' wants to know if you want some coffee!'),'order'=>array('push_type'=>$push_type,'runner'=>$runner_name));
 
+
 try
 {
+	if($_debug)
+		echo "try push";
 	$airship->push($message, $device_tokens_array);
-}catch (Exception $e) {
-	debug('Caught exception: '.  $e->getMessage());
-    //error_log('Caught exception: ',  $e->getMessage());
-    
 }
+catch (Exception $e) {
+     error_log('Caught exception: '.  $e->getMessage());
+    }
 
 // set up a run
 
 // 2 set up the run
 // 2a check location (based off of yelpid)
 $sql = "SELECT id FROM locations WHERE yelp_id='$location_yelp_id'";
+if($_debug)
+	debug($sql);
 $result = dbQuery($sql);
 if (mysql_num_rows($result)) {
 	// get location
@@ -84,6 +101,8 @@ if (mysql_num_rows($result)) {
 	// insert location
 	$sql = "INSERT INTO locations (name, address, image,  yelp_id) VALUES (\"{$location_name}\", \"{$location_address}\", \"{$location_url}\",  \"{$location_yelp_id}\")";
 	dbQuery($sql);
+	if($_debug)
+		debug($sql);
 	$location_id = mysql_insert_id();
 	if($_debug)
 		debug("inserted location");
@@ -98,16 +117,23 @@ $run_id = mysql_insert_id();
 // 3 insert attendees (as users and then orders)
 foreach($attendees as $attendee_device_id) {
 	// see if the attendee is a user
+	if($_debug)
+		echo("attendee_device_id " . $attendee_device_id);
 	$attendee = findUserByDeviceID($attendee_device_id);
+	
+	
 	if($_debug)
 		debug($attendee);
 	
 	$sql = "INSERT INTO orders (user_id, run_id) VALUES ('{$attendee->id}', {$run_id})";
 	if($_debug)
-	{
-		dbQuery($sql);
+		debug($sql);
+		
+	dbQuery($sql);
+	
+	if($_debug)
 		debug($attendee);
-	}
+		
 	if($attendee->enable_email_use)
 	{
 		if($_debug)
@@ -117,7 +143,11 @@ foreach($attendees as $attendee_device_id) {
 			$subnav = "JavaDash is a great new way to order coffee for you and your friends!";
 			$body = "";
 			sendPostmarkEmail($subject,$subnav,$body,$attendee->email,$attendee->name);
-	}
-	
-	
+	}	
 }
+
+$success = 1;
+$result = array(
+	"success" => $success,
+);
+echo json_encode($result);

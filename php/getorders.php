@@ -111,9 +111,9 @@ if ($is_runner) {
 			}
 					}
 	
-		if($rows != null)
+		if(isset($rows))
 		{
-			print_r($row);
+			//print_r($row);
 			$data["run"]['orders'] = $rows;
 		}
 		
@@ -197,7 +197,7 @@ if ($is_runner) {
 			
 			
 		}
-			if($rows != null)
+			if(isset($rows))
 			{
 				$data["run"]['orders'] = $rows;	
 				

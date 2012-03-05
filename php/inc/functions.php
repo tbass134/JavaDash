@@ -15,6 +15,8 @@
 //	defined('DB_NAME')   ? null : define('DB_NAME',   'javadash');
 //}
 
+//Global Var to enable debugging
+$_debug = 1;
 // connect to the db
 dbConnect();
 
@@ -139,6 +141,9 @@ function dbUpdate ($sql) {
  * @return stdClass user object
  */
 function findUserByDeviceID($deviceid,$name = null,$email = null,$enable_email_use = null, $platform = null, $fbID = null) {
+	if($deviceid == null)
+		return;
+		
 	$sql = "SELECT * FROM users WHERE deviceid='{$deviceid}'";
 	$result = dbQuery($sql);
 	if (mysql_num_rows($result)) {

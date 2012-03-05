@@ -1,6 +1,5 @@
 <?php
 
-$_debug = 1;
 require('inc/functions.php');
 require_once 'inc/urbanairship/urbanairship.php';
 if (isset($_GET['deviceid'])) {
@@ -42,18 +41,21 @@ if (mysql_num_rows($result) >0)
 	include 'inc/login.php';
 	$airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 	$runner = findUserByID($runs_user_id);
-	debug($runner);
+	if($_debug)
+		debug($runner);
 	
 	try
 	{
-		$message = array('aps'=>array('alert'=>$user->name . "has left the run"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
+		$message = array('aps'=>array('alert'=>$user->name . " has left the run"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
 		$airship->push($message, $runner->deviceid);
 	}
 	catch (Exception $e) {
 	    debug('Caught exception: '.   $e->getMessage());
 	}
-	
-	
-		
 }
+$success = 1;
+$jsonresult = array(
+	"success" => $success,
+);
+echo json_encode($jsonresult);
 

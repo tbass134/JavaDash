@@ -1,8 +1,9 @@
 <?php
-$_debug = 1;
 require('inc/functions.php');
 require('Postmark/sendEmail.php');
 require_once 'inc/urbanairship/urbanairship.php';
+
+$orderEnded = false;
 if (isset($_POST['device_id'])) {
 	// core passed params we care about
 	$deviceid	= $_POST['device_id'];
@@ -26,14 +27,31 @@ else
 	exit;
 }
 
-debug($updateOrder);
+if($_debug)
+	debug($updateOrder);
 
 //Send a push to the runner saying there is an order
 //Get the runner device id
-$sql = "SELECT runs.id AS runs_id, users.* FROM runs LEFT JOIN users ON runs.user_id = users.id WHERE runs.id=$run_id ORDER BY runs.timestamp ASC LIMIT 0,1";
+$sql = "SELECT runs.id AS runs_id, users.* FROM runs LEFT JOIN users ON runs.user_id = users.id WHERE runs.id=$run_id AND completed =0 ORDER BY runs.timestamp ASC LIMIT 0,1";
 if($_debug)
 	debug($sql);
+	
 $result = dbQuery($sql);
+if (mysql_num_rows($result)) 
+	$orderEnded = false;
+else
+	$orderEnded = true;
+	
+
+if($orderEnded)
+{
+	// no device id
+	$result = array(
+		"error" => 'Order Ended',
+	);
+	echo json_encode($result);
+	exit;
+}
 
 if($_debug)
 	debug($result);
@@ -46,7 +64,7 @@ try
 {
 	if($updateOrder !="1")
 	{
-		$message = array('aps'=>array('alert'=>$user->name . "has placed an order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
+		$message = array('aps'=>array('alert'=>$user->name . " has placed an order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
 		$airship->push($message, $row['deviceid']); //, array('testTag')	
 	}
 }

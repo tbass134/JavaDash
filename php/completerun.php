@@ -1,5 +1,4 @@
 <?php
-$_debug = 1;
 require('inc/functions.php');
 require_once 'inc/urbanairship/urbanairship.php';
 if (isset($_GET['deviceid'])) {
@@ -8,7 +7,6 @@ if (isset($_GET['deviceid'])) {
 	$run_id = $_GET['run_id'];
 
 	$user = findUserByDeviceID($deviceid);
-	debug($user);
 } else {
 	 echo "no device id";
 	exit;
@@ -17,6 +15,7 @@ if (isset($_GET['deviceid'])) {
 $sql = "UPDATE runs SET completed=1 WHERE user_id={$user->id} AND id={$run_id}";
 if($_debug)
 	debug($sql);
+	
 dbUpdate($sql);
 
 //Send push notifications to all users saying that run has been abandoned
@@ -58,9 +57,16 @@ while ($row = mysql_fetch_assoc($result)) {
 		//was	
 	    //error_log('Caught exception: ',  $e->getMessage(), "\n");
 	    
-	    error_log('Caught exception: ',  $e->getMessage());
+	    error_log('Caught exception: ' . $e->getMessage());
 	    
 	}
 }
+
+$success = 1;
+$jsonresult = array(
+	"success" => $success,
+);
+echo json_encode($jsonresult);
+
 
 

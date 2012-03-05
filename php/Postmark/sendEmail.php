@@ -1,5 +1,6 @@
 <?php
 	
+	
 	// Well, yeah..
 	require('Postmark.php');
 	include('template/template.php');
@@ -16,14 +17,17 @@
 		
 	function sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName)
 	{
-	
-		echo "Calling sendEmail";
-		debug("subject = " .$subject);
-		debug("subnav = " .$subnav);
-		debug("body = " .$body);
-		debug("userEmail = " .$userEmail);
-		debug("userName = " .$userName);
-		
+		/*
+		if($_debug)
+		{
+			echo "Calling sendEmail";
+			debug("subject = " .$subject);
+			debug("subnav = " .$subnav);
+			debug("body = " .$body);
+			debug("userEmail = " .$userEmail);
+			debug("userName = " .$userName);
+		}
+		*/
 	
 	
 		

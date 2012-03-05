@@ -29,13 +29,14 @@
 	{
 		echo "Calling sendEmail";
 		$message = generateTemplate($subject,$subnav,$body,$runnerEmail);
-		
+		/*
 		// Create a message and send it
 		Mail_Postmark::compose()
 		->addTo($runnerEmail, $userName)
 		->subject($subject)
 		->messageHtml($message)
 		->send();
+		*/
 		echo $message;
 	}
 	
