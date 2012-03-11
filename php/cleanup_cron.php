@@ -1,4 +1,5 @@
 <?php
+
 require('inc/functions.php');
 echo "running Clean up";
 $sql = "SELECT * FROM `runs` WHERE `timestamp` <= NOW() AND completed=0";
@@ -11,5 +12,4 @@ while ($row = mysql_fetch_assoc($result)) {
 	dbUpdate($sql);
 }
 echo 'End clean up';
-
 ?>

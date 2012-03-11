@@ -1,7 +1,7 @@
 <?php
 
 	require('inc/functions.php');
-	require_once 'inc/urbanairship/urbanairship.php';
+	require_once 'inc/urbanairship2/urbanairship.php';
 	
 	
 	$APP_MASTER_SECRET = 'D9RVBb5fRYaib0hJGz9L-g';

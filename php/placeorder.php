@@ -1,14 +1,14 @@
 <?php
 require('inc/functions.php');
 require('Postmark/sendEmail.php');
-require_once 'inc/urbanairship/urbanairship.php';
+require_once 'inc/urbanairship2/urbanairship.php';
 
 $orderEnded = false;
 if (isset($_POST['device_id'])) {
 	// core passed params we care about
 	$deviceid	= $_POST['device_id'];
 	$run_id 	= $_POST['run_id'];
-	$drink		= $_POST['order'];
+	$drink		= urldecode($_POST['order']);
 	
 if (isset($_POST['updateOrder']))
 {
@@ -23,7 +23,9 @@ else
 	//debug($user);
 } else {
 	// no device id
-	echo "no device id";
+	$success = 0;
+	$arr = array('success' => $success);
+	echo json_encode($arr);
 	exit;
 }
 
@@ -46,10 +48,9 @@ else
 if($orderEnded)
 {
 	// no device id
-	$result = array(
-		"error" => 'Order Ended',
-	);
-	echo json_encode($result);
+	$success = 0;
+	$arr = array('success' => $success);
+	echo json_encode($arr);
 	exit;
 }
 
@@ -64,8 +65,12 @@ try
 {
 	if($updateOrder !="1")
 	{
-		$message = array('aps'=>array('alert'=>$user->name . " has placed an order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
-		$airship->push($message, $row['deviceid']); //, array('testTag')	
+		//TH don't send push if the user is the runner 03.08.12
+		if($row['deviceid'] !=$deviceid)
+		{
+			$message = array('aps'=>array('alert'=>$user->name . " has placed an order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
+			$airship->push($message, $row['deviceid']); //, array('testTag')	
+		}
 	}
 }
 catch (Exception $e) {
@@ -73,11 +78,14 @@ catch (Exception $e) {
 }
 	//Send the runner the email
 	$runner = findUserByDeviceID($row['deviceid']);
+	
+	
 	if($_debug)
 		debug($runner);
 	//If Email is enabled, email the order to the user
 	
-	if($runner->enable_email_use && isset($drink))
+	//TH don't send the email if the user is the runner --$runner->deviceid !=$deviceid 03.08.12
+	if($runner->enable_email_use && isset($drink) && $runner->deviceid !=$deviceid)
 	{
 		if($_debug)
 		debug("Send Email");
@@ -100,7 +108,9 @@ catch (Exception $e) {
 		{
 			if($updateOrder !="1")
 			{
-				echo "Sending Email";
+			
+				if($_debug)
+					echo "Sending Email";
 				sendPostmarkEmail($subject,$subnav,$body,$userEmail,$userName);
 			}
 		}
@@ -134,6 +144,9 @@ if($updateOrder =="1")
 			debug($sql);
 		}
 		dbUpdate($sql);
+		$success = 1;
+		$arr = array('success' => $success);
+		echo json_encode($arr);
 		/*
 	} else {
 		$sql = "INSERT INTO orders (user_id, drink, run_id) VALUES ({$user->deviceid}, \"{$drink}\", {$run_id})";
@@ -156,6 +169,7 @@ else
 		if($_debug)
 			debug($sql);
 		dbUpdate($sql);
+		
 	} 
 	else
 	{
@@ -166,3 +180,7 @@ else
 		dbQuery($sql);
 	}
 }
+
+$success = 1;
+$arr = array('success' => $success);
+echo json_encode($arr);

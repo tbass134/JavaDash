@@ -1,6 +1,6 @@
 <?php
 require('inc/functions.php');
-require_once 'inc/urbanairship/urbanairship.php';
+require_once 'inc/urbanairship2/urbanairship.php';
 if (isset($_GET['deviceid'])) {
 	// core passed params we care about
 	$deviceid = $_GET['deviceid'];

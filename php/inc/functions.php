@@ -16,7 +16,7 @@
 //}
 
 //Global Var to enable debugging
-$_debug = 1;
+$_debug = 0;
 // connect to the db
 dbConnect();
 

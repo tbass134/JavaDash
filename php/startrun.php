@@ -2,7 +2,8 @@
 
 require('inc/functions.php');
 require('Postmark/sendEmail.php');
-require_once 'inc/urbanairship/urbanairship.php';
+//require_once 'inc/urbanairship/urbanairship.php';
+require_once 'inc/urbanairship2/urbanairship.php';
 
 $device_token 		= $_POST['device_tokens'];
 $push_type	  		= $_POST['push_type'];
@@ -53,10 +54,16 @@ if (isset($_POST['deviceid'])) {
 	exit;
 }
 
+
+while (($pos = array_search($runner_device_id, $device_tokens_array)) !== false) {
+    unset($device_tokens_array[$pos]);
+}
+
 // now check if that user has any open runs TH added 012112
 $sql = "SELECT * FROM runs WHERE user_id={$user->id} AND completed=0 ORDER BY date_added DESC";
 if($_debug)
 	debug($sql);
+	
 $result = dbQuery($sql);
 while ($row = mysql_fetch_assoc($result)) {
 	$sql = "UPDATE runs SET completed=1 WHERE id=".$row['id'];
@@ -79,9 +86,13 @@ try
 {
 	if($_debug)
 		echo "try push";
+		
 	$airship->push($message, $device_tokens_array);
 }
 catch (Exception $e) {
+
+if($_debug)
+	echo "Failed push";
      error_log('Caught exception: '.  $e->getMessage());
     }
 

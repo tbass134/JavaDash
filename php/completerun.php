@@ -1,6 +1,6 @@
 <?php
 require('inc/functions.php');
-require_once 'inc/urbanairship/urbanairship.php';
+require_once 'inc/urbanairship2/urbanairship.php';
 if (isset($_GET['deviceid'])) {
 	// core passed params we care about
 	$deviceid = $_GET['deviceid'];
@@ -45,11 +45,15 @@ while ($row = mysql_fetch_assoc($result)) {
 		debug($user);
 	
 	try
-	{
-		if($_debug)
-			debug("do push");
-		$message = array('aps'=>array('alert'=>$runner->name . " has canceled the order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
-		$airship->push($message, $user->deviceid); //, array('testTag')	
+	{	
+		//TH don't send push if the user is the runner 03.08.12
+		if($user->deviceid !=$deviceid)
+		{
+			if($_debug)
+				debug("do push");
+			$message = array('aps'=>array('alert'=>$runner->name . " has canceled the order"),'order'=>array('push_type'=>'notify runner','attendee'=>$user->name));
+			$airship->push($message, $user->deviceid); //, array('testTag')	
+		}
 	}
 	catch (Exception $e) {
 		//if($_debug)
