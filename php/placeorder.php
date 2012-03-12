@@ -143,10 +143,13 @@ if($updateOrder =="1")
 			debug("update Order");
 			debug($sql);
 		}
+		/*
 		dbUpdate($sql);
-		$success = 1;
+		$success
+		 = 1;
 		$arr = array('success' => $success);
 		echo json_encode($arr);
+		*/
 		/*
 	} else {
 		$sql = "INSERT INTO orders (user_id, drink, run_id) VALUES ({$user->deviceid}, \"{$drink}\", {$run_id})";
