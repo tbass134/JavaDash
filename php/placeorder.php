@@ -143,8 +143,9 @@ if($updateOrder =="1")
 			debug("update Order");
 			debug($sql);
 		}
-		/*
+		
 		dbUpdate($sql);
+		/*
 		$success
 		 = 1;
 		$arr = array('success' => $success);

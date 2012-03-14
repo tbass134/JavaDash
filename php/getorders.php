@@ -45,7 +45,7 @@ if ($is_runner) {
 /*	
 	$sql = "SELECT runs.*, locations.*, users.name AS user_name FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id WHERE runs.user_id={$user->id} AND completed=0 ORDER BY runs.timestamp ASC LIMIT 0,1;";
 */	
-	$sql = "SELECT runs.id AS runs_id,runs.timestamp,runs.user_id,runs.completed,locations.id AS locations_id,locations.name AS location_name,locations.address,locations.image,locations.yelp_id,orders.drink,users.name AS user_name,users.deviceid,users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id WHERE runs.user_id={$user->id} AND completed=0 ORDER BY date_added ASC LIMIT 0,1";
+	$sql = "SELECT runs.id AS runs_id,runs.timestamp,runs.user_id,runs.completed,locations.id AS locations_id,locations.name AS location_name,locations.address,locations.image,locations.yelp_id,orders.drink,users.name AS user_name,users.deviceid,users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id WHERE runs.user_id={$user->id} AND completed=0 ORDER BY date_added DESC LIMIT 0,1";
 	
 	if($_debug)
 		debug($sql);
@@ -122,7 +122,7 @@ if ($is_runner) {
 
 } else { 
 	
-	$sql = "SELECT runs.id AS runs_id, runs.timestamp, runs.user_id, runs.completed, locations.id AS locations_id, locations.name AS location_name, locations.address,locations.image, locations.yelp_id, orders.drink, users.name AS user_name, users.deviceid, users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id  WHERE orders.user_id={$user->id} AND runs.completed=0 ORDER BY date_added ASC LIMIT 0,1;";
+	$sql = "SELECT runs.id AS runs_id, runs.timestamp, runs.user_id, runs.completed, locations.id AS locations_id, locations.name AS location_name, locations.address,locations.image, locations.yelp_id, orders.drink, users.name AS user_name, users.deviceid, users.platform,users.purchased FROM orders LEFT JOIN runs ON orders.run_id=runs.id LEFT JOIN locations ON runs.location_id=locations.id LEFT JOIN users ON runs.user_id=users.id  WHERE orders.user_id={$user->id} AND runs.completed=0 ORDER BY date_added DESC LIMIT 0,1;";
 	
 	
 /*	
