@@ -20,13 +20,10 @@ $result = dbQuery($sql);
 if (mysql_num_rows($result)) {
 	
 	$sql = "UPDATE users SET purchased=1 WHERE id={$user->id}";
-	if(dbUpdate($sql))
-		$success = 1;
-		$arr = array('success' => $success);
-		echo json_encode($arr);
+	dbUpdate($sql);
+		
 }
-else
-	$success = 0;
-	$arr = array('success' => $success);
-	echo json_encode($arr);
+$success = 1;
+$arr = array('success' => $success);
+echo json_encode($arr);
 ?>
