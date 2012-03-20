@@ -7,7 +7,9 @@ if ( isset($_GET['deviceid']) || $deviceid != "(null)") {
 	$deviceid = $_GET['deviceid'];
 } else {
 	// no device id
-	echo "0";
+	$success = 0;
+	$arr = array('success' => $success);
+	echo json_encode($arr);
 	exit;
 }
 
@@ -19,8 +21,12 @@ if (mysql_num_rows($result)) {
 	
 	$sql = "UPDATE users SET purchased=1 WHERE id={$user->id}";
 	if(dbUpdate($sql))
-		echo "1";
+		$success = 1;
+		$arr = array('success' => $success);
+		echo json_encode($arr);
 }
 else
-	echo "0";
+	$success = 0;
+	$arr = array('success' => $success);
+	echo json_encode($arr);
 ?>
