@@ -1,9 +1,12 @@
 <?php
 
 require('inc/functions.php');
+require ('inc/login.php');
 require('Postmark/sendEmail.php');
-//require_once 'inc/urbanairship/urbanairship.php';
-require_once 'inc/urbanairship2/urbanairship.php';
+require_once 'inc/urbanairship/urbanairship.php';
+//require_once 'inc/urbanairship2/urbanairship.php';
+
+
 
 $device_token 		= $_POST['device_tokens'];
 $push_type	  		= $_POST['push_type'];
@@ -74,7 +77,7 @@ while ($row = mysql_fetch_assoc($result)) {
 if($_debug)
 	debug("device_tokens_array count = ".count($device_tokens_array));
 
-include 'inc/login.php';
+
 $airship = new Airship($APP_KEY, $APP_MASTER_SECRET);
 
 
